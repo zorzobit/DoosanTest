@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "DoosanTest": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}

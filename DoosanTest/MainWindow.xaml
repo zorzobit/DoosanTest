@@ -1,0 +1,95 @@
+﻿<Window x:Class="DoosanTest.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DoosanTest"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Button Command="{Binding Connect}" Content="{Binding ConnectionButtonText}" Margin="5"/>
+                <TextBox Text="{Binding IpString}" Margin="5" IsEnabled="{Binding IpBoxIsEnabled}"/>
+            </StackPanel>
+            <StackPanel>
+                <Label Content="{Binding IsConnectedText}"/>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="System Version: " Background="AliceBlue"></Label>
+                    <Label Content="{Binding SystemVerLabel}" Background="LawnGreen"></Label>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Library Version: " Background="AliceBlue"></Label>
+                    <Label Content="{Binding LibraryVerLabel}" Background="LawnGreen"></Label>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Robot State: " Background="AliceBlue"></Label>
+                    <Label Content="{Binding RobotState}" Background="LawnGreen"></Label>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Speed Mode: " Background="AliceBlue"></Label>
+                    <Label Content="{Binding SpeedMode}" Background="LawnGreen"></Label>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Program State: " Background="AliceBlue"></Label>
+                    <Label Content="{Binding ProgramState}" Background="LawnGreen"></Label>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Button Margin="5" Content="{Binding RobotMode}" Command="{Binding SwitchMode}" IsEnabled="{Binding IsNotBusy}"></Button>
+                    <Button Margin="5" Content="MoveJ" Command="{Binding MoveJ}" IsEnabled="{Binding IsNotBusy}"></Button>
+                    <Button Margin="5" Content="Reset" Command="{Binding Reset}" IsEnabled="{Binding IsNotBusy}"></Button>
+                </StackPanel>
+            </StackPanel>
+            <StackPanel>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="3*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Content="X:" Background="AliceBlue"></Label>
+                    <Label Grid.Column="1" Content="{Binding PosX}" Background="LawnGreen"></Label>
+                </Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="3*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Content="Y:" Background="AliceBlue"></Label>
+                    <Label Grid.Column="1" Content="{Binding PosY}" Background="LawnGreen"></Label>
+                </Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="3*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Content="Z:" Background="AliceBlue"></Label>
+                    <Label Grid.Column="1" Content="{Binding PosZ}" Background="LawnGreen"></Label>
+                </Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="3*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Content="Rx:" Background="AliceBlue"></Label>
+                    <Label Grid.Column="1" Content="{Binding PosRx}" Background="LawnGreen"></Label>
+                </Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="3*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Content="Ry:" Background="AliceBlue"></Label>
+                    <Label Grid.Column="1" Content="{Binding PosRy}" Background="LawnGreen"></Label>
+                </Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="3*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Content="Rz:" Background="AliceBlue"></Label>
+                    <Label Grid.Column="1" Content="{Binding PosRz}" Background="LawnGreen"></Label>
+                </Grid>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>
