@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using static DoosanTest.Doosi;
 
 namespace DoosanTest
 {
@@ -19,6 +20,7 @@ namespace DoosanTest
         const int NUM_JOINT = 6;
         const int NUM_FLANGE_IO = 6;
         const int NUM_BUTTON = 5;
+        const int MAX_FLANGE_AI = 4; 
 
         [StructLayout(LayoutKind.Sequential)]
     public struct MONITORING_DATA
@@ -129,6 +131,157 @@ namespace DoosanTest
         public float[] _fActualETT;
     }
 
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public struct MONITORING_DATA_EX
+    {
+        public MONITORING_CONTROL_EX _tCtrl;
+        public MONITORING_MISC _tMisc;
+        public MONITORING_MISC_EX _tMiscEx;
+        public MONITORING_MODEL _tModel;
+        public MONITORING_FLANGE_IO_CONFIG _tFlangeIo;
+    }
+
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public struct MONITORING_MISC_EX
+    {
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 120)]
+        public byte[] _szReserved1;
+    }
+
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public struct MONITORING_MODEL
+    {
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 64)]
+        public byte[] _szReserved;
+    }
+
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public struct MONITORING_FLANGE_IO_CONFIG
+    {
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = MAX_FLANGE_AI)]
+        public float[] _iActualAI;
+
+        public byte _iX1Rs485FAIPinMux;
+        public byte _iX2Rs485FAIPinMux;
+        public byte _iX1DOBjtType;
+        public byte _iX2DOBjtType;
+        public byte _iVoutLevel;
+        public byte _iFAI0Mode;
+        public byte _iFAI1Mode;
+        public byte _iFAI2Mode;
+        public byte _iFAI3Mode;
+
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 7)]
+        public byte[] _szX1Baudrate;
+
+        public byte _szX1DataLength;
+        public byte _szX1Parity;
+        public byte _szX1StopBit;
+
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 7)]
+        public byte[] _szX2Baudrate;
+
+        public byte _szX2DataLength;
+        public byte _szX2Parity;
+        public byte _szX2StopBit;
+        public byte _iServoSafetyMode;
+        public byte _iInterruptSafetyMode;
+    }
+
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public struct ROBOT_MONITORING_WORLD
+    {
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = NUMBER_OF_JOINT)]
+        public float[] _fActualW2B;
+
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 2 * NUMBER_OF_JOINT)]
+        public float[] _fActualPos; // Flattened 2D array
+
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = NUMBER_OF_JOINT)]
+        public float[] _fActualVel;
+
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = NUMBER_OF_JOINT)]
+        public float[] _fActualETT;
+
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = NUMBER_OF_JOINT)]
+        public float[] _fTargetPos;
+
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = NUMBER_OF_JOINT)]
+        public float[] _fTargetVel;
+
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)] // 3x3 flattened
+        public float[] _fRotationMatrix;
+    }
+
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public struct ROBOT_MONITORING_USER
+    {
+        public byte _iActualUCN;
+        public byte _iParent;
+
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 2 * NUMBER_OF_JOINT)]
+        public float[] _fActualPos; // Flattened 2D array
+
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = NUMBER_OF_JOINT)]
+        public float[] _fActualVel;
+
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = NUMBER_OF_JOINT)]
+        public float[] _fActualETT;
+
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = NUMBER_OF_JOINT)]
+        public float[] _fTargetPos;
+
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = NUMBER_OF_JOINT)]
+        public float[] _fTargetVel;
+
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)] // 3x3 flattened
+        public float[] _fRotationMatrix;
+    }
+
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public struct MONITORING_CONTROL_EX
+    {
+        public ROBOT_MONITORING_STATE _tState;
+        public ROBOT_MONITORING_JOINT _tJoint;
+        public ROBOT_MONITORING_TASK _tTask;
+        public ROBOT_MONITORING_TORQUE _tTorque;
+        public ROBOT_MONITORING_WORLD _tWorld;
+        public ROBOT_MONITORING_USER _tUser;
+    }
+
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public struct MONITORING_FORCECONTROL
+    {
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = NUMBER_OF_JOINT)]
+        public float[] _fActualHDT;
+
+        public byte _iSingularHandlingMode;
+        public byte _isMoving;
+
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 2)]
+        public byte[] reserved;
+    }
+
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public struct MONITORING_AMODEL
+    {
+        public ROBOT_MONITORING_SENSOR _tSensor;
+        public float _fSingularity;
+    }
+
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public struct ROBOT_MONITORING_SENSOR
+    {
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = NUMBER_OF_JOINT)]
+        public float[] _fActualFTS;
+
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = NUMBER_OF_JOINT)]
+        public float[] _fActualCS;
+
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 3)]
+        public float[] _fActualACS;
+    }
+
     public enum ROBOT_CONTROL
         {
             CONTROL_INIT_CONFIG,
@@ -234,6 +387,18 @@ namespace DoosanTest
                 return data;
             }
             return new MONITORING_DATA();
+        }
+        [DllImport("Lib\\DoosanInterface.dll", EntryPoint = "GetMonitoringDataEx", CallingConvention = CallingConvention.StdCall)]
+        private static extern IntPtr getMonitoringDataEx();
+        public static MONITORING_DATA_EX GetMonitoringDataEx()
+        {
+            IntPtr ptr = getMonitoringDataEx();
+            if (ptr != IntPtr.Zero)
+            {
+                MONITORING_DATA_EX data = Marshal.PtrToStructure<MONITORING_DATA_EX>(ptr);
+                return data;
+            }
+            return new MONITORING_DATA_EX();
         }
     }
 }

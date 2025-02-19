@@ -40,56 +40,112 @@
                     <Button Margin="5" Content="Reset" Command="{Binding Reset}" IsEnabled="{Binding IsNotBusy}"></Button>
                 </StackPanel>
             </StackPanel>
-            <StackPanel>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="3*"/>
-                    </Grid.ColumnDefinitions>
-                    <Label Grid.Column="0" Content="X:" Background="AliceBlue"></Label>
-                    <Label Grid.Column="1" Content="{Binding PosX}" Background="LawnGreen"></Label>
-                </Grid>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="3*"/>
-                    </Grid.ColumnDefinitions>
-                    <Label Grid.Column="0" Content="Y:" Background="AliceBlue"></Label>
-                    <Label Grid.Column="1" Content="{Binding PosY}" Background="LawnGreen"></Label>
-                </Grid>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="3*"/>
-                    </Grid.ColumnDefinitions>
-                    <Label Grid.Column="0" Content="Z:" Background="AliceBlue"></Label>
-                    <Label Grid.Column="1" Content="{Binding PosZ}" Background="LawnGreen"></Label>
-                </Grid>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="3*"/>
-                    </Grid.ColumnDefinitions>
-                    <Label Grid.Column="0" Content="Rx:" Background="AliceBlue"></Label>
-                    <Label Grid.Column="1" Content="{Binding PosRx}" Background="LawnGreen"></Label>
-                </Grid>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="3*"/>
-                    </Grid.ColumnDefinitions>
-                    <Label Grid.Column="0" Content="Ry:" Background="AliceBlue"></Label>
-                    <Label Grid.Column="1" Content="{Binding PosRy}" Background="LawnGreen"></Label>
-                </Grid>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="3*"/>
-                    </Grid.ColumnDefinitions>
-                    <Label Grid.Column="0" Content="Rz:" Background="AliceBlue"></Label>
-                    <Label Grid.Column="1" Content="{Binding PosRz}" Background="LawnGreen"></Label>
-                </Grid>
-            </StackPanel>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Width="120">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="3*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Content="J1:" Background="AliceBlue"></Label>
+                        <Label Grid.Column="1" Content="{Binding Joint1}" Background="LawnGreen"></Label>
+                    </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="3*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Content="J2:" Background="AliceBlue"></Label>
+                        <Label Grid.Column="1" Content="{Binding Joint2}" Background="LawnGreen"></Label>
+                    </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="3*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Content="J3:" Background="AliceBlue"></Label>
+                        <Label Grid.Column="1" Content="{Binding Joint3}" Background="LawnGreen"></Label>
+                    </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="3*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Content="J4:" Background="AliceBlue"></Label>
+                        <Label Grid.Column="1" Content="{Binding Joint4}" Background="LawnGreen"></Label>
+                    </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="3*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Content="J5:" Background="AliceBlue"></Label>
+                        <Label Grid.Column="1" Content="{Binding Joint5}" Background="LawnGreen"></Label>
+                    </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="3*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Content="J6:" Background="AliceBlue"></Label>
+                        <Label Grid.Column="1" Content="{Binding Joint6}" Background="LawnGreen"></Label>
+                    </Grid>
+                </StackPanel>
+                <StackPanel Grid.Column="1" Width="120">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="3*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Content="X:" Background="AliceBlue"></Label>
+                        <Label Grid.Column="1" Content="{Binding PosX}" Background="LawnGreen"></Label>
+                    </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="3*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Content="Y:" Background="AliceBlue"></Label>
+                        <Label Grid.Column="1" Content="{Binding PosY}" Background="LawnGreen"></Label>
+                    </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="3*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Content="Z:" Background="AliceBlue"></Label>
+                        <Label Grid.Column="1" Content="{Binding PosZ}" Background="LawnGreen"></Label>
+                    </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="3*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Content="Rx:" Background="AliceBlue"></Label>
+                        <Label Grid.Column="1" Content="{Binding PosRx}" Background="LawnGreen"></Label>
+                    </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="3*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Content="Ry:" Background="AliceBlue"></Label>
+                        <Label Grid.Column="1" Content="{Binding PosRy}" Background="LawnGreen"></Label>
+                    </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="3*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Content="Rz:" Background="AliceBlue"></Label>
+                        <Label Grid.Column="1" Content="{Binding PosRz}" Background="LawnGreen"></Label>
+                    </Grid>
+                </StackPanel>
+            </Grid>
         </StackPanel>
     </Grid>
 </Window>

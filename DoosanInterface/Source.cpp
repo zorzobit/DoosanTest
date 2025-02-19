@@ -81,6 +81,7 @@ void OnProgramStopped(const PROGRAM_STOP_CAUSE)
 }
 
 LPMONITORING_DATA LPMonData;
+LPMONITORING_DATA_EX LPMonDataEx;
 
 void OnMonitoringDataCB(const LPMONITORING_DATA pData)
 {
@@ -90,14 +91,8 @@ void OnMonitoringDataCB(const LPMONITORING_DATA pData)
 
 void OnMonitoringDataExCB(const LPMONITORING_DATA_EX pData)
 {
+    LPMonDataEx = pData;
     return;
-    cout << "# monitoring 1 data "
-        << pData->_tCtrl._tJoint._fActualPos[1]
-        << pData->_tCtrl._tJoint._fActualPos[1]
-        << pData->_tCtrl._tJoint._fActualPos[2]
-        << pData->_tCtrl._tJoint._fActualPos[3]
-        << pData->_tCtrl._tJoint._fActualPos[4]
-        << pData->_tCtrl._tJoint._fActualPos[5] << endl;
 }
 
 void OnMonitoringCtrlIOCB(const LPMONITORING_CTRLIO pData)
@@ -288,7 +283,7 @@ extern "C" __declspec(dllexport) bool WINAPI Connect(const char* ip) {
     drfl.set_on_monitoring_ctrl_io_ex(OnMonitoringCtrlIOExCB);
     drfl.set_on_monitoring_state(OnMonitoringStateCB);
     drfl.set_on_monitoring_access_control(OnMonitroingAccessControlCB);
-    drfl.set_on_tp_initializing_completed(OnTpInitializingCompleted);
+    //drfl.set_on_tp_initializing_completed(OnTpInitializingCompleted);
     drfl.set_on_log_alarm(OnLogAlarm);
     drfl.set_on_tp_popup(OnTpPopup);
     drfl.set_on_tp_log(OnTpLog);
@@ -303,6 +298,8 @@ extern "C" __declspec(dllexport) bool WINAPI Connect(const char* ip) {
     drfl.set_on_program_stopped(OnProgramStopped);
     drfl.set_on_disconnected(OnDisConnected);
     isConnected = drfl.open_connection(ip);
+
+    assert(drfl.setup_monitoring_version(1));
     return isConnected;
 }
 extern "C" __declspec(dllexport) void WINAPI DisConnect(const char* ip) {
@@ -358,6 +355,11 @@ extern "C" __declspec(dllexport) bool WINAPI MoveJ(float* posx, float vel, float
 extern "C" {
     EXPORT LPMONITORING_DATA GetMonitoringData() {
         return LPMonData;
+    }
+    }
+extern "C" {
+    EXPORT LPMONITORING_DATA_EX GetMonitoringDataEx() {
+        return LPMonDataEx;
     }
 }
 

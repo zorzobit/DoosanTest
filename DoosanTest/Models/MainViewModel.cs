@@ -39,13 +39,19 @@ namespace DoosanTest
 
         public bool IpBoxIsEnabled { get; set; }
         public bool IsNotBusy { get; set; } = false;
-        
-        public string PosX { get; set; }
-        public string PosY { get; set; }
-        public string PosZ { get; set; }
-        public string PosRx { get; set; }
-        public string PosRy { get; set; }
-        public string PosRz { get; set; }
+
+        public float PosX { get; set; }
+        public float PosY { get; set; }
+        public float PosZ { get; set; }
+        public float PosRx { get; set; }
+        public float PosRy { get; set; }
+        public float PosRz { get; set; }
+        public float Joint1 { get; set; }
+        public float Joint2 { get; set; }
+        public float Joint3 { get; set; }
+        public float Joint4 { get; set; }
+        public float Joint5 { get; set; }
+        public float Joint6 { get; set; }
         public ICommand SwitchMode
         {
             get
@@ -144,7 +150,7 @@ namespace DoosanTest
                                 {
                                     while (Doosi.IsConnected())
                                     {
-                                        var gsgs = GetMonitoringData();
+                                        var gsgs = GetMonitoringDataEx();
                                         bool rm = Doosi.GetRobotMode();
                                         string state = Doosi.GetRobotState();
                                         string speedmode = Doosi.GetSpeedMode();
@@ -153,12 +159,21 @@ namespace DoosanTest
                                         {
                                             try
                                             {
-                                                PosX = gsgs._tCtrl._tJoint._fActualPos[0].ToString() + "/" + gsgs._tCtrl._tJoint._fActualAbs[0].ToString();
-                                                PosY = gsgs._tCtrl._tJoint._fActualPos[1].ToString() + "/" + gsgs._tCtrl._tJoint._fActualAbs[1].ToString();
-                                                PosZ = gsgs._tCtrl._tJoint._fActualPos[2].ToString() + "/" + gsgs._tCtrl._tJoint._fActualAbs[2].ToString();
-                                                PosRx = gsgs._tCtrl._tJoint._fActualPos[3].ToString() + "/" + gsgs._tCtrl._tJoint._fActualAbs[3].ToString();
-                                                PosRy = gsgs._tCtrl._tJoint._fActualPos[4].ToString() + "/" + gsgs._tCtrl._tJoint._fActualAbs[4].ToString();
-                                                PosRz = gsgs._tCtrl._tJoint._fActualPos[5].ToString() + "/" + gsgs._tCtrl._tJoint._fActualAbs[5].ToString();
+                                                if (gsgs._tCtrl._tJoint._fActualPos != null)
+                                                {
+                                                    Joint1 = ToCeiling(gsgs._tCtrl._tJoint._fActualPos[0]);
+                                                    Joint2 = ToCeiling(gsgs._tCtrl._tJoint._fActualPos[1]);
+                                                    Joint3 = ToCeiling(gsgs._tCtrl._tJoint._fActualPos[2]);
+                                                    Joint4 = ToCeiling(gsgs._tCtrl._tJoint._fActualPos[3]);
+                                                    Joint5 = ToCeiling(gsgs._tCtrl._tJoint._fActualPos[4]);
+                                                    Joint6 = ToCeiling(gsgs._tCtrl._tJoint._fActualPos[5]);
+                                                    PosX =   ToCeiling(gsgs._tCtrl._tTask._fActualPos[0]);
+                                                    PosY =   ToCeiling(gsgs._tCtrl._tTask._fActualPos[1]);
+                                                    PosZ =   ToCeiling(gsgs._tCtrl._tTask._fActualPos[2]);
+                                                    PosRx =  ToCeiling(gsgs._tCtrl._tTask._fActualPos[3]);
+                                                    PosRy =  ToCeiling(gsgs._tCtrl._tTask._fActualPos[4]);
+                                                    PosRz = ToCeiling(gsgs._tCtrl._tTask._fActualPos[5]);
+                                                }
                                             }
                                             catch (Exception)
                                             {
@@ -183,6 +198,10 @@ namespace DoosanTest
                     }
                 }, o => true);
             }
+        }
+        private float ToCeiling(float value)
+        {
+            return (float)Math.Ceiling(value * 1000) / 1000;
         }
     }
 }
