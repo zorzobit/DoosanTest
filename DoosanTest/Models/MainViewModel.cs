@@ -8,6 +8,7 @@ namespace DoosanTest
     public class MainViewModel : BaseViewModel
     {
         private MainWindow mainWindow;
+        ModbusClient modbusClient;
 
         public MainViewModel(MainWindow mainWindow)
         {
@@ -18,6 +19,7 @@ namespace DoosanTest
             ConnectionButtonText = "Connect";
             IpBoxIsEnabled = true;
             IsConnectedText = "NOT CONNECTED";
+            modbusClient = new ModbusClient(IpString, 502);
         }
 
         private void MainWindow_Closing(object? sender, System.ComponentModel.CancelEventArgs e)
@@ -52,6 +54,31 @@ namespace DoosanTest
         public float Joint4 { get; set; }
         public float Joint5 { get; set; }
         public float Joint6 { get; set; }
+        public int Reg30 { get; set; }
+        public int Reg31 { get; set; }
+
+        public ICommand SetReg
+        {
+            get
+            {
+                return new RelayCommand(o =>
+                {
+                    IsNotBusy = false;
+                    Task.Run(() =>
+                    {
+                        if (Doosi.IsConnected())
+                        {
+                            short integerPart = (short)PosX;
+                            short fractionalPart = (short)((PosX - integerPart) * 1000);
+                            int[] vals = { integerPart, fractionalPart };
+                            modbusClient.WriteMultipleRegisters(30, vals);
+                        }
+                        IsNotBusy = true;
+                    });
+
+                }, o => true);
+            }
+        }
         public ICommand SwitchMode
         {
             get
@@ -140,6 +167,7 @@ namespace DoosanTest
                                 IsNotBusy = true;
                                 var ver = Doosi.GetSystemVersion();
                                 var lib = Doosi.GetLibraryVersion();
+                                modbusClient.Connect();
                                 Application.Current.Dispatcher.Invoke((Action)delegate
                                 {
                                     IsConnectedText = "CONNECTED";
@@ -155,6 +183,7 @@ namespace DoosanTest
                                         string state = Doosi.GetRobotState();
                                         string speedmode = Doosi.GetSpeedMode();
                                         string progstate = Doosi.GetProgramState();
+                                        var reg30 = modbusClient.ReadHoldingRegisters(30, 2);
                                         Application.Current.Dispatcher.Invoke((Action)delegate
                                         {
                                             try
@@ -173,6 +202,8 @@ namespace DoosanTest
                                                     PosRx =  ToCeiling(gsgs._tCtrl._tTask._fActualPos[3]);
                                                     PosRy =  ToCeiling(gsgs._tCtrl._tTask._fActualPos[4]);
                                                     PosRz = ToCeiling(gsgs._tCtrl._tTask._fActualPos[5]);
+                                                    Reg30 = reg30[0];
+                                                    Reg31 = reg30[1];
                                                 }
                                             }
                                             catch (Exception)
