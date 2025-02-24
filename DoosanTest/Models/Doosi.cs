@@ -372,8 +372,12 @@ namespace DoosanTest
         public static extern bool ProgTest();
         [DllImport("Lib\\DoosanInterface.dll", EntryPoint = "GetRobotMode")]
         public static extern bool GetRobotMode();
-        [DllImport("Lib\\DoosanInterface.dll", EntryPoint = "SwitchRobotMode")] 
+        [DllImport("Lib\\DoosanInterface.dll", EntryPoint = "SwitchRobotMode")]
         public static extern bool SwitchRobotMode();
+        [DllImport("Lib\\DoosanInterface.dll", EntryPoint = "SetDigitalOutput")]
+        public static extern bool SetDigitalOutput(int index, bool val);
+        [DllImport("Lib\\DoosanInterface.dll", EntryPoint = "GetDigitalOutput")]
+        public static extern bool GetDigitalOutput(int index);
 
 
         [DllImport("Lib\\DoosanInterface.dll", EntryPoint = "GetMonitoringData", CallingConvention = CallingConvention.StdCall)]

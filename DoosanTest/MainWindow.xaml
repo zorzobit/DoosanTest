@@ -12,49 +12,133 @@
                 <Button Command="{Binding Connect}" Content="{Binding ConnectionButtonText}" Margin="5"/>
                 <TextBox Text="{Binding IpString}" Margin="5" IsEnabled="{Binding IpBoxIsEnabled}"/>
             </StackPanel>
-            <StackPanel>
-                <Label Content="{Binding IsConnectedText}"/>
-                <StackPanel Orientation="Horizontal">
-                    <Label Content="System Version: " Background="AliceBlue"></Label>
-                    <Label Content="{Binding SystemVerLabel}" Background="LawnGreen"></Label>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <Label Content="Library Version: " Background="AliceBlue"></Label>
-                    <Label Content="{Binding LibraryVerLabel}" Background="LawnGreen"></Label>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <Label Content="Robot State: " Background="AliceBlue"></Label>
-                    <Label Content="{Binding RobotState}" Background="LawnGreen"></Label>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <Label Content="Speed Mode: " Background="AliceBlue"></Label>
-                    <Label Content="{Binding SpeedMode}" Background="LawnGreen"></Label>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <Label Content="Program State: " Background="AliceBlue"></Label>
-                    <Label Content="{Binding ProgramState}" Background="LawnGreen"></Label>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel>
+                    <Label Content="{Binding IsConnectedText}"/>
                     <StackPanel Orientation="Horizontal">
-                        <Label Content="Reg 30: " Background="AliceBlue"></Label>
-                        <Label Content="{Binding Reg30}" Background="LawnGreen"></Label>
+                        <Label Content="System Version: " Background="AliceBlue"></Label>
+                        <Label Content="{Binding SystemVerLabel}"  Background="LawnGreen" Width="70"></Label>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <Label Content="Reg 31: " Background="AliceBlue"></Label>
-                        <Label Content="{Binding Reg31}" Background="LawnGreen"></Label>
+                        <Label Content="Library Version: " Background="AliceBlue"></Label>
+                        <Label Content="{Binding LibraryVerLabel}"  Background="LawnGreen" Width="70"></Label>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <Label Content="PosX: " Background="AliceBlue"></Label>
-                        <Label Content="{Binding PosX}" Background="LawnGreen"></Label>
+                        <Label Content="Robot State: " Background="AliceBlue"></Label>
+                        <Label Content="{Binding RobotState}"  Background="LawnGreen" Width="70"></Label>
                     </StackPanel>
-                    <Button Margin="5" Width="60" Content="SET" Command="{Binding SetReg}" IsEnabled="{Binding IsNotBusy}"></Button>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Speed Mode: " Background="AliceBlue"></Label>
+                        <Label Content="{Binding SpeedMode}"  Background="LawnGreen" Width="70"></Label>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Program State: " Background="AliceBlue"></Label>
+                        <Label Content="{Binding ProgramState}"  Background="LawnGreen" Width="70"></Label>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <ComboBox ItemsSource="{Binding NumberList}" SelectedItem="{Binding SelectedIONum}" Width="100" Height="30"/>
+                        <Button Margin="5" Width="60" Content="{Binding IOisON}" Command="{Binding SetIO}" IsEnabled="{Binding IsNotBusy}"></Button>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Button Margin="5" Content="{Binding RobotMode}" Command="{Binding SwitchMode}" IsEnabled="{Binding IsNotBusy}"></Button>
+                        <Button Margin="5" Content="MoveJ" Command="{Binding MoveJ}" IsEnabled="{Binding IsNotBusy}"></Button>
+                        <Button Margin="5" Content="Reset" Command="{Binding Reset}" IsEnabled="{Binding IsNotBusy}"></Button>
+                    </StackPanel>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <Button Margin="5" Content="{Binding RobotMode}" Command="{Binding SwitchMode}" IsEnabled="{Binding IsNotBusy}"></Button>
-                    <Button Margin="5" Content="MoveJ" Command="{Binding MoveJ}" IsEnabled="{Binding IsNotBusy}"></Button>
-                    <Button Margin="5" Content="Reset" Command="{Binding Reset}" IsEnabled="{Binding IsNotBusy}"></Button>
+                <StackPanel Grid.Column="1">
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Reg 30: " Background="AliceBlue"></Label>
+                            <Label Content="{Binding Reg30}"  Background="LawnGreen" Width="70"></Label>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Reg 31: " Background="AliceBlue"></Label>
+                            <Label Content="{Binding Reg31}"  Background="LawnGreen" Width="70"></Label>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="  Val x: " Background="AliceBlue"></Label>
+                            <TextBox Text="{Binding posxval}" Margin="5"   Background="Cyan" Width="70"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Reg 32: " Background="AliceBlue"></Label>
+                            <Label Content="{Binding Reg32}"  Background="LawnGreen" Width="70"></Label>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Reg 33: " Background="AliceBlue"></Label>
+                            <Label Content="{Binding Reg33}"  Background="LawnGreen" Width="70"></Label>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="  Val y: " Background="AliceBlue"></Label>
+                            <TextBox Text="{Binding posyval}" Margin="5"   Background="Cyan" Width="70"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Reg 34: " Background="AliceBlue"></Label>
+                            <Label Content="{Binding Reg34}"  Background="LawnGreen" Width="70"></Label>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Reg 35: " Background="AliceBlue"></Label>
+                            <Label Content="{Binding Reg35}"  Background="LawnGreen" Width="70"></Label>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="  Val z: " Background="AliceBlue"></Label>
+                            <TextBox Text="{Binding poszval}" Margin="5"   Background="Cyan" Width="70"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Reg 36: " Background="AliceBlue"></Label>
+                            <Label Content="{Binding Reg36}"  Background="LawnGreen" Width="70"></Label>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Reg 37: " Background="AliceBlue"></Label>
+                            <Label Content="{Binding Reg37}"  Background="LawnGreen" Width="70"></Label>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Val Rx: " Background="AliceBlue"></Label>
+                            <TextBox Text="{Binding posrxval}" Margin="5"   Background="Cyan" Width="70"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Reg 38: " Background="AliceBlue"></Label>
+                            <Label Content="{Binding Reg38}"  Background="LawnGreen" Width="70"></Label>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Reg 39: " Background="AliceBlue"></Label>
+                            <Label Content="{Binding Reg39}"  Background="LawnGreen" Width="70"></Label>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Val Ry: " Background="AliceBlue"></Label>
+                            <TextBox Text="{Binding posryval}" Margin="5"   Background="Cyan" Width="70"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Reg 40: " Background="AliceBlue"></Label>
+                            <Label Content="{Binding Reg40}"  Background="LawnGreen" Width="70"></Label>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Reg 41: " Background="AliceBlue"></Label>
+                            <Label Content="{Binding Reg41}"  Background="LawnGreen" Width="70"></Label>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Val Rx: " Background="AliceBlue"></Label>
+                            <TextBox Text="{Binding posrzval}" Margin="5"   Background="Cyan" Width="70"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Width="333">
+                        <Button Margin="5" Width="60" Content="SET" Command="{Binding SetReg}" IsEnabled="{Binding IsNotBusy}"></Button>
+                    </StackPanel>
                 </StackPanel>
-            </StackPanel>
+            </Grid>
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>

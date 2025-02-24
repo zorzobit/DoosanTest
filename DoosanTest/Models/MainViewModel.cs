@@ -20,6 +20,7 @@ namespace DoosanTest
             IpBoxIsEnabled = true;
             IsConnectedText = "NOT CONNECTED";
             modbusClient = new ModbusClient(IpString, 502);
+            NumberList = Enumerable.Range(1, 16).ToList();
         }
 
         private void MainWindow_Closing(object? sender, System.ComponentModel.CancelEventArgs e)
@@ -27,6 +28,7 @@ namespace DoosanTest
             if (Doosi.IsConnected())
                 Doosi.DisConnect();
         }
+        bool isON = false;
 
         public string SystemVerLabel { get; set; }
         public string LibraryVerLabel { get; set; }
@@ -54,9 +56,54 @@ namespace DoosanTest
         public float Joint4 { get; set; }
         public float Joint5 { get; set; }
         public float Joint6 { get; set; }
+        public float posxval { get; set; } = 0;
+        public float posyval { get; set; } = 0;
+        public float poszval { get; set; } = 0;
+        public float posrxval { get; set; } = 0;
+        public float posryval { get; set; } = 0;
+        public float posrzval { get; set; } = 0;
         public int Reg30 { get; set; }
         public int Reg31 { get; set; }
+        public int Reg32 { get; set; }
+        public int Reg33 { get; set; }
+        public int Reg34 { get; set; }
+        public int Reg35 { get; set; }
+        public int Reg36 { get; set; }
+        public int Reg37 { get; set; }
+        public int Reg38 { get; set; }
+        public int Reg39 { get; set; }
+        public int Reg40 { get; set; }
+        public int Reg41 { get; set; }
+        public List<int> NumberList { get; set; }
 
+        public string IOisON { get; set; }
+        public int SelectedIONum { get; set; }
+        public ICommand SetIO
+        {
+            get
+            {
+                return new RelayCommand(o =>
+                {
+                    IsNotBusy = false;
+                    Task.Run(() =>
+                    {
+                        if (Doosi.IsConnected())
+                        {
+                            if (isON)
+                            {
+                                var res1 = Doosi.SetDigitalOutput(SelectedIONum, true);
+                            }
+                            else
+                            {
+                                var res2 = Doosi.SetDigitalOutput(SelectedIONum, false);
+                            }
+                        }
+                        IsNotBusy = true;
+                    });
+
+                }, o => true);
+            }
+        }
         public ICommand SetReg
         {
             get
@@ -68,9 +115,14 @@ namespace DoosanTest
                     {
                         if (Doosi.IsConnected())
                         {
-                            short integerPart = (short)PosX;
-                            short fractionalPart = (short)((PosX - integerPart) * 1000);
-                            int[] vals = { integerPart, fractionalPart };
+                            int[] vals = {
+                                (short)posxval, (short)((posxval - (short)posxval) * 1000),
+                                (short)posyval, (short)((posyval - (short)posyval) * 1000),
+                                (short)poszval, (short)((poszval - (short)poszval) * 1000),
+                                (short)posrxval, (short)((posrxval - (short)posrxval) * 1000),
+                                (short)posryval, (short)((posryval - (short)posryval) * 1000),
+                                (short)posrzval, (short)((posrzval - (short)posrzval) * 1000),
+                            };
                             modbusClient.WriteMultipleRegisters(30, vals);
                         }
                         IsNotBusy = true;
@@ -179,11 +231,14 @@ namespace DoosanTest
                                     while (Doosi.IsConnected())
                                     {
                                         var gsgs = GetMonitoringDataEx();
+                                        var gsgs2 = GetMonitoringData();
                                         bool rm = Doosi.GetRobotMode();
                                         string state = Doosi.GetRobotState();
                                         string speedmode = Doosi.GetSpeedMode();
                                         string progstate = Doosi.GetProgramState();
-                                        var reg30 = modbusClient.ReadHoldingRegisters(30, 2);
+                                        var reg30 = modbusClient.ReadHoldingRegisters(30, 12);
+                                        if(SelectedIONum>=0)
+                                        isON = Doosi.GetDigitalOutput(SelectedIONum);
                                         Application.Current.Dispatcher.Invoke((Action)delegate
                                         {
                                             try
@@ -204,6 +259,17 @@ namespace DoosanTest
                                                     PosRz = ToCeiling(gsgs._tCtrl._tTask._fActualPos[5]);
                                                     Reg30 = reg30[0];
                                                     Reg31 = reg30[1];
+                                                    Reg32 = reg30[2];
+                                                    Reg33 = reg30[3];
+                                                    Reg34 = reg30[4];
+                                                    Reg35 = reg30[5];
+                                                    Reg36 = reg30[6];
+                                                    Reg37 = reg30[7];
+                                                    Reg38 = reg30[8];
+                                                    Reg39 = reg30[9];
+                                                    Reg40 = reg30[10];
+                                                    Reg41 = reg30[11];
+                                                    this.IOisON = isON ? "OFF" : "ON";
                                                 }
                                             }
                                             catch (Exception)

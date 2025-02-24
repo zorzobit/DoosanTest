@@ -298,7 +298,6 @@ extern "C" __declspec(dllexport) bool WINAPI Connect(const char* ip) {
     drfl.set_on_program_stopped(OnProgramStopped);
     drfl.set_on_disconnected(OnDisConnected);
     isConnected = drfl.open_connection(ip);
-
     assert(drfl.setup_monitoring_version(1));
     return isConnected;
 }
@@ -324,6 +323,12 @@ extern "C" __declspec(dllexport) void WINAPI GetSpeedMode(const char** result) {
 }
 extern "C" __declspec(dllexport) bool WINAPI SetControlMode(ROBOT_CONTROL mode) {
     return drfl.SetRobotControl(mode);
+}
+extern "C" __declspec(dllexport) bool WINAPI SetDigitalOutput(int num, bool val) {
+    return drfl.set_digital_output((GPIO_CTRLBOX_DIGITAL_INDEX)num, val);
+}
+extern "C" __declspec(dllexport) bool WINAPI GetDigitalOutput(int num) {
+    return drfl.get_digital_output((GPIO_CTRLBOX_DIGITAL_INDEX)num);
 }
 extern "C" __declspec(dllexport) void WINAPI GetProgramState(const char** result) {
     DRL_PROGRAM_STATE prg_state = drfl.get_program_state();
