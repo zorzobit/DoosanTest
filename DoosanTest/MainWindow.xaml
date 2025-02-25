@@ -6,6 +6,37 @@
         xmlns:local="clr-namespace:DoosanTest"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+    <Window.Resources>
+        <Style x:Key="VerticalSwitchStyle" TargetType="ToggleButton">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ToggleButton">
+                        <Grid Width="25" Height="40">
+                            <!-- Background -->
+                            <Border x:Name="SwitchBackground" Width="25" Height="40"
+                                    CornerRadius="12" Background="#E5E5E5"/>
+
+                            <!-- Knob -->
+                            <Border x:Name="SwitchKnob" Width="20" Height="20"
+                                    CornerRadius="10" Background="White"
+                                    HorizontalAlignment="Center" VerticalAlignment="Top">
+                                <Border.Effect>
+                                    <DropShadowEffect Color="#888" BlurRadius="3" ShadowDepth="1.5"/>
+                                </Border.Effect>
+                            </Border>
+                        </Grid>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="SwitchBackground" Property="Background" Value="#4CD964"/>
+                                <Setter TargetName="SwitchKnob" Property="VerticalAlignment" Value="Bottom"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
     <Grid>
         <StackPanel>
             <StackPanel Orientation="Horizontal">
@@ -15,7 +46,7 @@
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <StackPanel>
                     <Label Content="{Binding IsConnectedText}"/>
@@ -44,9 +75,29 @@
                         <Button Margin="5" Width="60" Content="{Binding IOisON}" Command="{Binding SetIO}" IsEnabled="{Binding IsNotBusy}"></Button>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <Button Margin="5" Content="{Binding RobotMode}" Command="{Binding SwitchMode}" IsEnabled="{Binding IsNotBusy}"></Button>
+                        <Border BorderBrush="Black" BorderThickness="2" CornerRadius="5" Margin="5">
+                            <UniformGrid Rows="2" Columns="8" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10">
+                                <ToggleButton Style="{StaticResource VerticalSwitchStyle}" Margin="4" IsChecked="{Binding Output0}"/>
+                                <ToggleButton Style="{StaticResource VerticalSwitchStyle}" Margin="4" IsChecked="{Binding Output1}"/>
+                                <ToggleButton Style="{StaticResource VerticalSwitchStyle}" Margin="4" IsChecked="{Binding Output2}"/>
+                                <ToggleButton Style="{StaticResource VerticalSwitchStyle}" Margin="4" IsChecked="{Binding Output3}"/>
+                                <ToggleButton Style="{StaticResource VerticalSwitchStyle}" Margin="4" IsChecked="{Binding Output4}"/>
+                                <ToggleButton Style="{StaticResource VerticalSwitchStyle}" Margin="4" IsChecked="{Binding Output5}"/>
+                                <ToggleButton Style="{StaticResource VerticalSwitchStyle}" Margin="4" IsChecked="{Binding Output6}"/>
+                                <ToggleButton Style="{StaticResource VerticalSwitchStyle}" Margin="4" IsChecked="{Binding Output7}"/>
+                                <ToggleButton Style="{StaticResource VerticalSwitchStyle}" Margin="4" IsChecked="{Binding Output8}"/>
+                                <ToggleButton Style="{StaticResource VerticalSwitchStyle}" Margin="4" IsChecked="{Binding Output9}"/>
+                                <ToggleButton Style="{StaticResource VerticalSwitchStyle}" Margin="4" IsChecked="{Binding Output10}"/>
+                                <ToggleButton Style="{StaticResource VerticalSwitchStyle}" Margin="4" IsChecked="{Binding Output11}"/>
+                                <ToggleButton Style="{StaticResource VerticalSwitchStyle}" Margin="4" IsChecked="{Binding Output12}"/>
+                                <ToggleButton Style="{StaticResource VerticalSwitchStyle}" Margin="4" IsChecked="{Binding Output13}"/>
+                                <ToggleButton Style="{StaticResource VerticalSwitchStyle}" Margin="4" IsChecked="{Binding Output14}"/>
+                                <ToggleButton Style="{StaticResource VerticalSwitchStyle}" Margin="4" IsChecked="{Binding Output15}"/>
+                            </UniformGrid>
+                        </Border>
+                        <!--<Button Margin="5" Content="{Binding RobotMode}" Command="{Binding SwitchMode}" IsEnabled="{Binding IsNotBusy}"></Button>
                         <Button Margin="5" Content="MoveJ" Command="{Binding MoveJ}" IsEnabled="{Binding IsNotBusy}"></Button>
-                        <Button Margin="5" Content="Reset" Command="{Binding Reset}" IsEnabled="{Binding IsNotBusy}"></Button>
+                        <Button Margin="5" Content="Reset" Command="{Binding Reset}" IsEnabled="{Binding IsNotBusy}"></Button>-->
                     </StackPanel>
                 </StackPanel>
                 <StackPanel Grid.Column="1">

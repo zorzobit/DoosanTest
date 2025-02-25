@@ -1,6 +1,10 @@
-﻿using System.Runtime.ConstrainedExecution;
+﻿using System.Net.Sockets;
+using System.Net;
+using System.Runtime.ConstrainedExecution;
+using System.Text;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Threading;
 using static DoosanTest.Doosi;
 
 namespace DoosanTest
@@ -9,6 +13,8 @@ namespace DoosanTest
     {
         private MainWindow mainWindow;
         ModbusClient modbusClient;
+        private TcpListener _listener;
+        private bool _isRunning = true;
 
         public MainViewModel(MainWindow mainWindow)
         {
@@ -21,8 +27,53 @@ namespace DoosanTest
             IsConnectedText = "NOT CONNECTED";
             modbusClient = new ModbusClient(IpString, 502);
             NumberList = Enumerable.Range(1, 16).ToList();
+            Task.Run(() => StartServer());
+        }
+        private void StartServer()
+        {
+            try
+            {
+                _listener = new TcpListener(IPAddress.Parse("192.168.56.1"), 20002);
+                _listener.Start();
+                //Dispatcher.Invoke(() => StatusText.Text = "Server started...");
+
+                while (_isRunning)
+                {
+                    var client = _listener.AcceptTcpClient();
+                    Task.Run(() => HandleClient(client));
+                }
+            }
+            catch (Exception ex)
+            {
+                //Dispatcher.Invoke(() => StatusText.Text = $"Error: {ex.Message}");
+            }
         }
 
+        private void HandleClient(TcpClient client)
+        {
+            try
+            {
+                NetworkStream stream = client.GetStream();
+                byte[] buffer = new byte[1024];
+                int bytesRead = stream.Read(buffer, 0, buffer.Length);
+                string receivedData = Encoding.UTF8.GetString(buffer, 0, bytesRead);
+
+                //Dispatcher.Invoke(() => ReceivedText.Text = receivedData);
+
+                // Send a response
+                string response = "ACK";
+                byte[] responseData = Encoding.UTF8.GetBytes(response);
+                stream.Write(responseData, 0, responseData.Length);
+            }
+            catch (Exception ex)
+            {
+                //Dispatcher.Invoke(() => StatusText.Text = $"Client Error: {ex.Message}");
+            }
+            finally
+            {
+                client.Close();
+            }
+        }
         private void MainWindow_Closing(object? sender, System.ComponentModel.CancelEventArgs e)
         {
             if (Doosi.IsConnected())
@@ -74,6 +125,22 @@ namespace DoosanTest
         public int Reg39 { get; set; }
         public int Reg40 { get; set; }
         public int Reg41 { get; set; }
+        public bool Output0 { get; set; }
+        public bool Output1 { get; set; }
+        public bool Output2 { get; set; }
+        public bool Output3 { get; set; }
+        public bool Output4 { get; set; }
+        public bool Output5 { get; set; }
+        public bool Output6 { get; set; }
+        public bool Output7 { get; set; }
+        public bool Output8 { get; set; }
+        public bool Output9 { get; set; }
+        public bool Output10 { get; set; }
+        public bool Output11 { get; set; }
+        public bool Output12 { get; set; }
+        public bool Output13 { get; set; }
+        public bool Output14 { get; set; }
+        public bool Output15 { get; set; }
         public List<int> NumberList { get; set; }
 
         public string IOisON { get; set; }
