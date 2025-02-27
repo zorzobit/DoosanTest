@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
 using static DoosanTest.Doosi;
+using System.Globalization;
 
 namespace DoosanTest
 {
@@ -15,6 +16,7 @@ namespace DoosanTest
         ModbusClient modbusClient;
         private TcpListener _listener;
         private bool _isRunning = true;
+        float[] Registers = new float[200];
 
         public MainViewModel(MainWindow mainWindow)
         {
@@ -27,7 +29,7 @@ namespace DoosanTest
             IsConnectedText = "NOT CONNECTED";
             modbusClient = new ModbusClient(IpString, 502);
             NumberList = Enumerable.Range(1, 16).ToList();
-            Task.Run(() => StartServer());
+            RegisterCount = Enumerable.Range(1, 200).ToList();
         }
         private void StartServer()
         {
@@ -60,8 +62,28 @@ namespace DoosanTest
 
                 //Dispatcher.Invoke(() => ReceivedText.Text = receivedData);
 
-                // Send a response
-                string response = "ACK";
+                string response="";
+                if (receivedData.Contains("GetR"))
+                {
+                    int index = int.Parse(receivedData.Split(new string[] { "GetR" }, StringSplitOptions.None)[1]);
+                    response = (Registers[index]).ToString();
+                }
+                else if (receivedData.Contains("SetR"))
+                {
+                    var first = receivedData.Split('=')[0];
+                    var sec = receivedData.Split('=')[1];
+                    int index = int.Parse(first.Split(new string[] { "SetR" }, StringSplitOptions.None)[1]);
+                    float val = float.Parse(sec, CultureInfo.InvariantCulture);
+                    this.Registers[index] = val;
+                    response = "ACK";
+                }
+                else if (receivedData.Contains("GetPR")){
+
+                }
+                else
+                {
+                    response = "ACK";
+                }
                 byte[] responseData = Encoding.UTF8.GetBytes(response);
                 stream.Write(responseData, 0, responseData.Length);
             }
@@ -143,6 +165,19 @@ namespace DoosanTest
         public bool Output15 { get; set; }
         public List<int> NumberList { get; set; }
 
+        public float RegisterValue { get; set; }
+        public List<int> RegisterCount{ get; set; }
+        private int _selectedRegister;
+        public int SelectedRegister
+        {
+            get { return _selectedRegister; }
+            set
+            {
+                _selectedRegister = value;
+                RegisterValue = Registers[SelectedRegister];
+            }
+        }
+
         public string IOisON { get; set; }
         public int SelectedIONum { get; set; }
         public ICommand SetIO
@@ -195,6 +230,16 @@ namespace DoosanTest
                         IsNotBusy = true;
                     });
 
+                }, o => true);
+            }
+        }
+        public ICommand SetRegister
+        {
+            get
+            {
+                return new RelayCommand(o =>
+                {
+                    Registers[SelectedRegister] = RegisterValue;
                 }, o => true);
             }
         }
@@ -283,6 +328,7 @@ namespace DoosanTest
                             var res = Doosi.Connect(IpString);
                             if (Doosi.IsConnected())
                             {
+                                Task.Run(() => StartServer());
                                 IsNotBusy = true;
                                 var ver = Doosi.GetSystemVersion();
                                 var lib = Doosi.GetLibraryVersion();

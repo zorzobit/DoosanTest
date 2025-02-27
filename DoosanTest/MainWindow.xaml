@@ -188,6 +188,11 @@
                     <StackPanel Orientation="Horizontal" Width="333">
                         <Button Margin="5" Width="60" Content="SET" Command="{Binding SetReg}" IsEnabled="{Binding IsNotBusy}"></Button>
                     </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <ComboBox Margin="5" MinWidth="50" ItemsSource="{Binding RegisterCount}" SelectedItem="{Binding SelectedRegister}"/>
+                        <TextBox Margin="5"  MinWidth="80" Text="{Binding RegisterValue}"/>
+                        <Button Margin="5" Command="{Binding SetRegister}" Content="UPDATE" MinWidth="80"/>
+                    </StackPanel>
                 </StackPanel>
             </Grid>
             <Grid>
