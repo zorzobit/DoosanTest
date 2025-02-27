@@ -103,95 +103,45 @@
                 <StackPanel Grid.Column="1">
                     <StackPanel Orientation="Horizontal">
                         <StackPanel Orientation="Horizontal">
-                            <Label Content="Reg 30: " Background="AliceBlue"></Label>
-                            <Label Content="{Binding Reg30}"  Background="LawnGreen" Width="70"></Label>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <Label Content="Reg 31: " Background="AliceBlue"></Label>
-                            <Label Content="{Binding Reg31}"  Background="LawnGreen" Width="70"></Label>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
                             <Label Content="  Val x: " Background="AliceBlue"></Label>
-                            <TextBox Text="{Binding posxval}" Margin="5"   Background="Cyan" Width="70"/>
+                            <TextBox Text="{Binding SelectedPR.X}" Margin="5"   Background="Cyan" Width="70"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="PR: " Background="AliceBlue"></Label>
+                            <ComboBox Margin="5" MinWidth="50" ItemsSource="{Binding PRList}" SelectedItem="{Binding SelectedPR}" SelectedIndex="{Binding SelectedPRIndex}" DisplayMemberPath="Name"/>
                         </StackPanel>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <StackPanel Orientation="Horizontal">
-                            <Label Content="Reg 32: " Background="AliceBlue"></Label>
-                            <Label Content="{Binding Reg32}"  Background="LawnGreen" Width="70"></Label>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <Label Content="Reg 33: " Background="AliceBlue"></Label>
-                            <Label Content="{Binding Reg33}"  Background="LawnGreen" Width="70"></Label>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <Label Content="  Val y: " Background="AliceBlue"></Label>
-                            <TextBox Text="{Binding posyval}" Margin="5"   Background="Cyan" Width="70"/>
-                        </StackPanel>
+                        <Label Content="  Val y: " Background="AliceBlue"></Label>
+                        <TextBox Text="{Binding SelectedPR.Y}" Margin="5"   Background="Cyan" Width="70"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <StackPanel Orientation="Horizontal">
-                            <Label Content="Reg 34: " Background="AliceBlue"></Label>
-                            <Label Content="{Binding Reg34}"  Background="LawnGreen" Width="70"></Label>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <Label Content="Reg 35: " Background="AliceBlue"></Label>
-                            <Label Content="{Binding Reg35}"  Background="LawnGreen" Width="70"></Label>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <Label Content="  Val z: " Background="AliceBlue"></Label>
-                            <TextBox Text="{Binding poszval}" Margin="5"   Background="Cyan" Width="70"/>
-                        </StackPanel>
+                        <Label Content="  Val z: " Background="AliceBlue"></Label>
+                        <TextBox Text="{Binding SelectedPR.Z}" Margin="5"   Background="Cyan" Width="70"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <StackPanel Orientation="Horizontal">
-                            <Label Content="Reg 36: " Background="AliceBlue"></Label>
-                            <Label Content="{Binding Reg36}"  Background="LawnGreen" Width="70"></Label>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <Label Content="Reg 37: " Background="AliceBlue"></Label>
-                            <Label Content="{Binding Reg37}"  Background="LawnGreen" Width="70"></Label>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <Label Content="Val Rx: " Background="AliceBlue"></Label>
-                            <TextBox Text="{Binding posrxval}" Margin="5"   Background="Cyan" Width="70"/>
-                        </StackPanel>
+                        <Label Content="Val Rx: " Background="AliceBlue"></Label>
+                        <TextBox Text="{Binding SelectedPR.RX}" Margin="5"   Background="Cyan" Width="70"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <StackPanel Orientation="Horizontal">
-                            <Label Content="Reg 38: " Background="AliceBlue"></Label>
-                            <Label Content="{Binding Reg38}"  Background="LawnGreen" Width="70"></Label>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <Label Content="Reg 39: " Background="AliceBlue"></Label>
-                            <Label Content="{Binding Reg39}"  Background="LawnGreen" Width="70"></Label>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <Label Content="Val Ry: " Background="AliceBlue"></Label>
-                            <TextBox Text="{Binding posryval}" Margin="5"   Background="Cyan" Width="70"/>
-                        </StackPanel>
+                        <Label Content="Val Ry: " Background="AliceBlue"></Label>
+                        <TextBox Text="{Binding SelectedPR.RY}" Margin="5"   Background="Cyan" Width="70"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <StackPanel Orientation="Horizontal">
-                            <Label Content="Reg 40: " Background="AliceBlue"></Label>
-                            <Label Content="{Binding Reg40}"  Background="LawnGreen" Width="70"></Label>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <Label Content="Reg 41: " Background="AliceBlue"></Label>
-                            <Label Content="{Binding Reg41}"  Background="LawnGreen" Width="70"></Label>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <Label Content="Val Rx: " Background="AliceBlue"></Label>
-                            <TextBox Text="{Binding posrzval}" Margin="5"   Background="Cyan" Width="70"/>
-                        </StackPanel>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal" Width="333">
-                        <Button Margin="5" Width="60" Content="SET" Command="{Binding SetReg}" IsEnabled="{Binding IsNotBusy}"></Button>
+                        <Label Content="Val Rx: " Background="AliceBlue"></Label>
+                        <TextBox Text="{Binding SelectedPR.RZ}" Margin="5"   Background="Cyan" Width="70"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <ComboBox Margin="5" MinWidth="50" ItemsSource="{Binding RegisterCount}" SelectedItem="{Binding SelectedRegister}"/>
-                        <TextBox Margin="5"  MinWidth="80" Text="{Binding RegisterValue}"/>
-                        <Button Margin="5" Command="{Binding SetRegister}" Content="UPDATE" MinWidth="80"/>
+                        <Button Margin="5" Width="80" Content="GET POS" Command="{Binding GetPos}"></Button>
+                        <Button Margin="5" Width="120" Content="UPDATE PR" Command="{Binding UpdatePR}"></Button>
+                    </StackPanel>
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+
+                            <ComboBox Margin="5" MinWidth="50" ItemsSource="{Binding RegisterCount}" SelectedItem="{Binding SelectedRegister}"/>
+                            <TextBox Margin="5"  MinWidth="80" Text="{Binding RegisterValue}"/>
+                        </StackPanel>
+                        <Button Margin="5" Width="120" Command="{Binding UpdateRegister}" Content="UPDATE REG" MinWidth="80"/>
                     </StackPanel>
                 </StackPanel>
             </Grid>

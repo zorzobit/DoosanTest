@@ -7,6 +7,8 @@ using System.Windows.Input;
 using System.Windows.Threading;
 using static DoosanTest.Doosi;
 using System.Globalization;
+using System.Text.Json.Nodes;
+using Newtonsoft.Json;
 
 namespace DoosanTest
 {
@@ -17,6 +19,7 @@ namespace DoosanTest
         private TcpListener _listener;
         private bool _isRunning = true;
         float[] Registers = new float[200];
+        
 
         public MainViewModel(MainWindow mainWindow)
         {
@@ -30,6 +33,8 @@ namespace DoosanTest
             modbusClient = new ModbusClient(IpString, 502);
             NumberList = Enumerable.Range(1, 16).ToList();
             RegisterCount = Enumerable.Range(1, 200).ToList();
+            int i = 1;
+            PRList = Enumerable.Range(0, 5).Select(_ => new PosBase() { Name="PR" + (i++).ToString()}).ToList();
         }
         private void StartServer()
         {
@@ -78,7 +83,8 @@ namespace DoosanTest
                     response = "ACK";
                 }
                 else if (receivedData.Contains("GetPR")){
-
+                    int index = int.Parse(receivedData.Split(new string[] { "GetPR" }, StringSplitOptions.None)[1]);
+                    response = JsonConvert.SerializeObject(this.PRList[index]);
                 }
                 else
                 {
@@ -129,12 +135,6 @@ namespace DoosanTest
         public float Joint4 { get; set; }
         public float Joint5 { get; set; }
         public float Joint6 { get; set; }
-        public float posxval { get; set; } = 0;
-        public float posyval { get; set; } = 0;
-        public float poszval { get; set; } = 0;
-        public float posrxval { get; set; } = 0;
-        public float posryval { get; set; } = 0;
-        public float posrzval { get; set; } = 0;
         public int Reg30 { get; set; }
         public int Reg31 { get; set; }
         public int Reg32 { get; set; }
@@ -164,7 +164,7 @@ namespace DoosanTest
         public bool Output14 { get; set; }
         public bool Output15 { get; set; }
         public List<int> NumberList { get; set; }
-
+        public List<PosBase> PRList { get; set; }
         public float RegisterValue { get; set; }
         public List<int> RegisterCount{ get; set; }
         private int _selectedRegister;
@@ -177,7 +177,26 @@ namespace DoosanTest
                 RegisterValue = Registers[SelectedRegister];
             }
         }
-
+        public int SelectedPRIndex { get; set; }
+        private PosBase _selectedPR;
+        public PosBase SelectedPR
+        {
+            get { return _selectedPR; }
+            set
+            {
+                _selectedPR = value;
+                //CurrentPos = new PosBase()
+                //{
+                //    Name = SelectedPR.Name,
+                //    X = SelectedPR.X,
+                //    Y = SelectedPR.Y,
+                //    Z = SelectedPR.Z,
+                //    RX = SelectedPR.RX,
+                //    RY = SelectedPR.RY,
+                //    RZ = SelectedPR.RZ
+                //};
+            }
+        }
         public string IOisON { get; set; }
         public int SelectedIONum { get; set; }
         public ICommand SetIO
@@ -206,40 +225,52 @@ namespace DoosanTest
                 }, o => true);
             }
         }
-        public ICommand SetReg
-        {
-            get
-            {
-                return new RelayCommand(o =>
-                {
-                    IsNotBusy = false;
-                    Task.Run(() =>
-                    {
-                        if (Doosi.IsConnected())
-                        {
-                            int[] vals = {
-                                (short)posxval, (short)((posxval - (short)posxval) * 1000),
-                                (short)posyval, (short)((posyval - (short)posyval) * 1000),
-                                (short)poszval, (short)((poszval - (short)poszval) * 1000),
-                                (short)posrxval, (short)((posrxval - (short)posrxval) * 1000),
-                                (short)posryval, (short)((posryval - (short)posryval) * 1000),
-                                (short)posrzval, (short)((posrzval - (short)posrzval) * 1000),
-                            };
-                            modbusClient.WriteMultipleRegisters(30, vals);
-                        }
-                        IsNotBusy = true;
-                    });
-
-                }, o => true);
-            }
-        }
-        public ICommand SetRegister
+        public ICommand UpdateRegister
         {
             get
             {
                 return new RelayCommand(o =>
                 {
                     Registers[SelectedRegister] = RegisterValue;
+                }, o => true);
+            }
+        }
+        public ICommand GetPos
+        {
+            get
+            {
+                return new RelayCommand(o =>
+                {
+                    SelectedPR = new PosBase()
+                    {
+                        Name = SelectedPR.Name,
+                        X = PosX,
+                        Y = PosY,
+                        Z = PosZ,
+                        RX = PosRx,
+                        RY = PosRy,
+                        RZ = PosRz,
+                    };
+                }, o => true);
+            }
+        }
+        public ICommand UpdatePR
+        {
+            get
+            {
+                return new RelayCommand(o =>
+                {
+                    var p = new PosBase()
+                    {
+                        Name = SelectedPR.Name,
+                        X = SelectedPR.X,
+                        Y = SelectedPR.Y,
+                        Z = SelectedPR.Z,
+                        RX = SelectedPR.RX,
+                        RY = SelectedPR.RY,
+                        RZ = SelectedPR.RZ,
+                    };
+                    PRList[SelectedPRIndex] = p;
                 }, o => true);
             }
         }
@@ -413,5 +444,16 @@ namespace DoosanTest
         {
             return (float)Math.Ceiling(value * 1000) / 1000;
         }
+    }
+    public class PosBase
+    {
+        public string Name { get; set; }
+        public float X { get; set; }
+        public float Y { get; set; }
+        public float Z { get; set; }
+        public float RX { get; set; }
+        public float RY { get; set; }
+        public float RZ { get; set; }
+
     }
 }
